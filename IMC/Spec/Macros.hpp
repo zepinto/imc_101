@@ -17,7 +17,7 @@
 //***************************************************************************
 // Automatically generated.                                                 *
 //***************************************************************************
-// IMC XML MD5: 009a5046be102f40bfccc623630722a7                            *
+// IMC XML MD5: 2a5f30dbbf2c8bf48b108c920bd86353                            *
 //***************************************************************************
 
 #ifndef IMC_MACROS_HPP_INCLUDED_
@@ -651,5 +651,7 @@
 #define IMC_DMSDETECTION (908)
 //! Total Magnetic Field Intensity Identifier.
 #define IMC_TOTALMAGINTENSITY (2006)
+//! Home Position Identifier.
+#define IMC_HOMEPOSITION (909)
 
 #endif

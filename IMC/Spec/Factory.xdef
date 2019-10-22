@@ -17,7 +17,7 @@
 //***************************************************************************
 // Automatically generated.                                                 *
 //***************************************************************************
-// IMC XML MD5: 009a5046be102f40bfccc623630722a7                            *
+// IMC XML MD5: 2a5f30dbbf2c8bf48b108c920bd86353                            *
 //***************************************************************************
 
 MESSAGE(1, EntityState, "17c4984e9f0df11f474cf81b79009e16")
@@ -334,4 +334,5 @@ MESSAGE(906, ApmStatus, "3bfdf6c8610d9e866bd989db9dd3bfea")
 MESSAGE(907, SadcReadings, "1df0a01eff7d92d41680be3a8c2303dc")
 MESSAGE(908, DmsDetection, "58bc70ffc024ed2a79097a512b8c17ff")
 MESSAGE(2006, TotalMagIntensity, "d90d9652a4ad2c7cfe442d1738ba31ea")
+MESSAGE(909, HomePosition, "2da5d1c869e35343f8c60b51e3ba35b5")
 #undef MESSAGE

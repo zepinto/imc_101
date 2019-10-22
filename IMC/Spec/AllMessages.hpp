@@ -17,7 +17,7 @@
 //***************************************************************************
 // Automatically generated.                                                 *
 //***************************************************************************
-// IMC XML MD5: 009a5046be102f40bfccc623630722a7                            *
+// IMC XML MD5: 2a5f30dbbf2c8bf48b108c920bd86353                            *
 //***************************************************************************
 
 #ifndef IMC_ALLMESSAGES_HPP_INCLUDED_
@@ -337,5 +337,6 @@
 #include <IMC/Spec/SadcReadings.hpp>
 #include <IMC/Spec/DmsDetection.hpp>
 #include <IMC/Spec/TotalMagIntensity.hpp>
+#include <IMC/Spec/HomePosition.hpp>
 
 #endif

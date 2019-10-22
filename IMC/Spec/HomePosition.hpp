@@ -20,8 +20,8 @@
 // IMC XML MD5: 2a5f30dbbf2c8bf48b108c920bd86353                            *
 //***************************************************************************
 
-#ifndef IMC_CACHECONTROL_HPP_INCLUDED_
-#define IMC_CACHECONTROL_HPP_INCLUDED_
+#ifndef IMC_HOMEPOSITION_HPP_INCLUDED_
+#define IMC_HOMEPOSITION_HPP_INCLUDED_
 
 // ISO C++ 98 headers.
 #include <ostream>
@@ -40,72 +40,77 @@
 
 namespace IMC
 {
-  //! Cache Control.
-  class CacheControl: public Message
+  //! Home Position.
+  class HomePosition: public Message
   {
   public:
-    //! Control Operation.
-    enum ControlOperationEnum
+    //! Action on the vehicle home position.
+    enum ActiononthevehiclehomepositionEnum
     {
-      //! Store.
-      COP_STORE = 0,
-      //! Load.
-      COP_LOAD = 1,
-      //! Clear.
-      COP_CLEAR = 2,
-      //! Copy Snapshot.
-      COP_COPY = 3,
-      //! Snapshot Copy Complete.
-      COP_COPY_COMPLETE = 4
+      //! Set.
+      OP_SET = 1,
+      //! Report.
+      OP_REPORT = 2
     };
 
-    //! Control Operation.
+    //! Action on the vehicle home position.
     uint8_t op;
-    //! Snapshot destination.
-    std::string snapshot;
-    //! Message.
-    InlineMessage<Message> message;
+    //! Latitude (WGS-84).
+    double lat;
+    //! Longitude (WGS-84).
+    double lon;
+    //! Height (WGS-84).
+    float height;
+    //! Depth.
+    float depth;
+    //! Altitude.
+    float alt;
 
     static uint16_t
     getIdStatic(void)
     {
-      return 101;
+      return 909;
     }
 
-    static CacheControl*
+    static HomePosition*
     cast(Message* msg__)
     {
-      return (CacheControl*)msg__;
+      return (HomePosition*)msg__;
     }
 
-    CacheControl(void)
+    HomePosition(void)
     {
-      m_header.mgid = CacheControl::getIdStatic();
+      m_header.mgid = HomePosition::getIdStatic();
       clear();
-      message.setParent(this);
     }
 
-    CacheControl*
+    HomePosition*
     clone(void) const
     {
-      return new CacheControl(*this);
+      return new HomePosition(*this);
     }
 
     void
     clear(void)
     {
       op = 0;
-      snapshot.clear();
-      message.clear();
+      lat = 0;
+      lon = 0;
+      height = 0;
+      depth = 0;
+      alt = 0;
     }
 
     bool
     fieldsEqual(const Message& msg__) const
     {
-      const IMC::CacheControl& other__ = static_cast<const CacheControl&>(msg__);
+      const IMC::HomePosition& other__ = static_cast<const HomePosition&>(msg__);
       if (op != other__.op) return false;
-      if (snapshot != other__.snapshot) return false;
-      if (message != other__.message) return false;
+      if (lat != other__.lat) return false;
+      if (lon != other__.lon) return false;
+      if (height != other__.height) return false;
+      if (depth != other__.depth) return false;
+      if (alt != other__.alt) return false;
       return true;
     }
 
@@ -114,8 +119,11 @@ namespace IMC
     {
       uint8_t* ptr__ = bfr__;
       ptr__ += IMC::serialize(op, ptr__);
-      ptr__ += IMC::serialize(snapshot, ptr__);
-      ptr__ += message.serialize(ptr__);
+      ptr__ += IMC::serialize(lat, ptr__);
+      ptr__ += IMC::serialize(lon, ptr__);
+      ptr__ += IMC::serialize(height, ptr__);
+      ptr__ += IMC::serialize(depth, ptr__);
+      ptr__ += IMC::serialize(alt, ptr__);
       return ptr__;
     }
 
@@ -124,8 +132,11 @@ namespace IMC
     {
       const uint8_t* start__ = bfr__;
       bfr__ += IMC::deserialize(op, bfr__, size__);
-      bfr__ += IMC::deserialize(snapshot, bfr__, size__);
-      bfr__ += message.deserialize(bfr__, size__);
+      bfr__ += IMC::deserialize(lat, bfr__, size__);
+      bfr__ += IMC::deserialize(lon, bfr__, size__);
+      bfr__ += IMC::deserialize(height, bfr__, size__);
+      bfr__ += IMC::deserialize(depth, bfr__, size__);
+      bfr__ += IMC::deserialize(alt, bfr__, size__);
       return bfr__ - start__;
     }
 
@@ -134,87 +145,41 @@ namespace IMC
     {
       const uint8_t* start__ = bfr__;
       bfr__ += IMC::deserialize(op, bfr__, size__);
-      bfr__ += IMC::reverseDeserialize(snapshot, bfr__, size__);
-      bfr__ += message.reverseDeserialize(bfr__, size__);
+      bfr__ += IMC::reverseDeserialize(lat, bfr__, size__);
+      bfr__ += IMC::reverseDeserialize(lon, bfr__, size__);
+      bfr__ += IMC::reverseDeserialize(height, bfr__, size__);
+      bfr__ += IMC::reverseDeserialize(depth, bfr__, size__);
+      bfr__ += IMC::reverseDeserialize(alt, bfr__, size__);
       return bfr__ - start__;
     }
 
     uint16_t
     getId(void) const
     {
-      return CacheControl::getIdStatic();
+      return HomePosition::getIdStatic();
     }
 
     const char*
     getName(void) const
     {
-      return "CacheControl";
+      return "HomePosition";
     }
 
     size_t
     getFixedSerializationSize(void) const
     {
-      return 1;
-    }
-
-    size_t
-    getVariableSerializationSize(void) const
-    {
-      return IMC::getSerializationSize(snapshot) + message.getSerializationSize();
+      return 29;
     }
 
     void
     fieldsToJSON(std::ostream& os__, unsigned nindent__) const
     {
       IMC::toJSON(os__, "op", op, nindent__);
-      IMC::toJSON(os__, "snapshot", snapshot, nindent__);
-      message.toJSON(os__, "message", nindent__);
-    }
-
-  protected:
-    void
-    setTimeStampNested(double value__)
-    {
-      if (!message.isNull())
-      {
-        message.get()->setTimeStamp(value__);
-      }
-    }
-
-    void
-    setSourceNested(uint16_t value__)
-    {
-      if (!message.isNull())
-      {
-        message.get()->setSource(value__);
-      }
-    }
-
-    void
-    setSourceEntityNested(uint8_t value__)
-    {
-      if (!message.isNull())
-      {
-        message.get()->setSourceEntity(value__);
-      }
-    }
-
-    void
-    setDestinationNested(uint16_t value__)
-    {
-      if (!message.isNull())
-      {
-        message.get()->setDestination(value__);
-      }
-    }
-
-    void
-    setDestinationEntityNested(uint8_t value__)
-    {
-      if (!message.isNull())
-      {
-        message.get()->setDestinationEntity(value__);
-      }
+      IMC::toJSON(os__, "lat", lat, nindent__);
+      IMC::toJSON(os__, "lon", lon, nindent__);
+      IMC::toJSON(os__, "height", height, nindent__);
+      IMC::toJSON(os__, "depth", depth, nindent__);
+      IMC::toJSON(os__, "alt", alt, nindent__);
     }
   };
 }
