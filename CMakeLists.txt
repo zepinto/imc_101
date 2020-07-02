@@ -19,3 +19,7 @@ add_library(udp UDP/DatagramSocket.cpp)
 # imc_101 executable
 add_executable(imc_101 imc101.cpp)
 target_link_libraries(imc_101 imc udp)
+
+# imc_102 executable
+add_executable(imc_102 imc102.cpp)
+target_link_libraries(imc_102 imc udp)
