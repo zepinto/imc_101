@@ -6,8 +6,6 @@
 using namespace IMC;
 
 int main(int argc, char** argv) {
-	std::cout << "What??" << std::endl;
-
     char localhost[] = "127.0.0.1";
     int i = 0;
     DatagramSocket socket(30101, localhost, true, true);     // see https://github.com/butcherg/DatagramSocket
