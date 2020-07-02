@@ -18,6 +18,7 @@ int main(int argc, char** argv) {
     	if (bytes_read > 0) {
     	  	Message * received = Packet::deserialize(data, (int) bytes_read);
     	  	received->toJSON(std::cout);
+    	  	delete received;
     	}
     }
 }
